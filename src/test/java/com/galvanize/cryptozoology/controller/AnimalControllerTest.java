@@ -37,7 +37,7 @@ public class AnimalControllerTest {
 	 */
 	@Test
 	public void test_addAnimal_ReturnsCreatedAnimal() throws Exception {	
-		when(animalService.addAnimal(Mockito.any(Animal.class))).thenReturn(new Animal("Lion","walking"));
+		when(animalService.addAnimal(Mockito.any(Animal.class))).thenReturn(new Animal(1,"Lion","walking"));
 		mockMvc.perform(post("/api/zoo/animals").content(animalContent()).contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isCreated())
 				.andExpect(jsonPath("id").exists())
