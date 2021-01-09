@@ -2,6 +2,7 @@ package com.galvanize.cryptozoology.controller;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -38,11 +39,12 @@ public class AnimalControllerIntegrationTest {
 	public void test_addAnimalIntegration_ReturnsCreatedAnimal() throws Exception {
 		mockMvc.perform(
 				post("/api/zoo/animals")
-				.content(animalContentString())
-				.contentType(MediaType.APPLICATION_JSON)
-				)
-				.andExpect(status().isCreated()).andExpect(jsonPath("id").exists())
-				.andExpect(jsonPath("name").value("Bird")).andExpect(jsonPath("type").value("flying"));
+					.content(animalContentString())
+					.contentType(MediaType.APPLICATION_JSON))
+		.andExpect(status().isCreated())
+		.andExpect(jsonPath("id").exists())
+		.andExpect(jsonPath("name").value("Bird"))
+		.andExpect(jsonPath("type").value("flying"));
 	}
 
 	@Test
@@ -50,14 +52,49 @@ public class AnimalControllerIntegrationTest {
 		zooRepository.save(animalContent());
 		zooRepository.save(animalContent());
 		mockMvc.perform(
-				get("/api/zoo/animals")).andExpect(status().isOk()).andExpect(jsonPath("$").isNotEmpty());
+				get("/api/zoo/animals"))
+		.andExpect(status().isOk())
+		.andExpect(jsonPath("$").isNotEmpty());
 
+	}
+	
+	@Test
+	public void test_TreatUnHappyAnimal_ReturnsHappyAnimal() throws Exception {
+		Animal newAnimal = zooRepository.save(animalContent());
+		mockMvc.perform(
+				put(String.format("/api/zoo/animals/%d/treat",newAnimal.getId())))
+		.andExpect(status().isOk())
+		.andExpect(jsonPath("id"). value(newAnimal.getId()))
+		.andExpect(jsonPath("isHappy").value(true))
+		.andExpect(jsonPath("type").value("flying"))
+		.andExpect(jsonPath("name").value("Bird"));
+	}
+	
+	@Test
+	public void test_TreatHappyAnimal_ReturnsHappyAnimal() throws Exception {
+		Animal newAnimal = zooRepository.save(happyAnimalContent());
+		mockMvc.perform(
+				put(String.format("/api/zoo/animals/%d/treat",newAnimal.getId())))
+		.andExpect(status().isOk())
+		.andExpect(jsonPath("id"). value(newAnimal.getId()))
+		.andExpect(jsonPath("isHappy").value(true))
+		.andExpect(jsonPath("type").value("walking"))
+		.andExpect(jsonPath("name").value("Dog"));
 	}
 
 	private Animal animalContent() {
 		Animal animal = new Animal();
 		animal.setName("Bird");
 		animal.setType("flying");
+		return animal;
+
+	}
+	
+	private Animal happyAnimalContent() {
+		Animal animal = new Animal();
+		animal.setName("Dog");
+		animal.setType("walking");
+		animal.setHappy(true);
 		return animal;
 
 	}
