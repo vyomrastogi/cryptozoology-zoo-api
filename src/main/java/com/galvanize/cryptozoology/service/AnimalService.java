@@ -24,4 +24,10 @@ public class AnimalService {
 		return zooRepository.findAll();
 	}
 
+	public Animal treatAnimal(int id) {
+		Animal existingAnimal = zooRepository.findById(Integer.valueOf(id)).orElseThrow();
+		existingAnimal.setHappy(true);
+		return zooRepository.save(existingAnimal);
+	}
+
 }

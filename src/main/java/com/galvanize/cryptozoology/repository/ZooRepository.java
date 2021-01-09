@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.galvanize.cryptozoology.model.Animal;
 
 @Repository
-public interface ZooRepository extends JpaRepository<Animal, String>{
+public interface ZooRepository extends JpaRepository<Animal, Integer>{
 
 }
