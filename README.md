@@ -19,7 +19,8 @@
 
 
 ---
-**POST /api/zoo/animals  **
+
+** POST /api/zoo/animals  **
 
 Request Body:
 ```json
@@ -32,10 +33,33 @@ Request Body:
 Response Body:
 ```json
 {
-    "id": "812e2132-cffa-4bb6-8d17-b13c16b2c9b3",
+    "id": 1,
     "name": "Lion",
     "type": "walking",
 
 }
 ```
 ---
+
+** GET /api/zoo/animals  **
+
+Response Body:
+```json
+[
+  {
+    "id": 1,
+    "name": "Bird",
+    "type": "flying"
+  },
+  {
+    "id": 2,
+    "name": "Bird",
+    "type": "flying"
+  },
+  {
+    "id": 3,
+    "name": "Bird",
+    "type": "flying"
+  }
+]
+```
