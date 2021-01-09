@@ -1,5 +1,7 @@
 package com.galvanize.cryptozoology.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.galvanize.cryptozoology.model.Animal;
@@ -16,6 +18,10 @@ public class AnimalService {
 
 	public Animal addAnimal(Animal animal) {
 		return zooRepository.save(animal);
+	}
+
+	public List<Animal> getAnimals() {
+		return zooRepository.findAll();
 	}
 
 }
