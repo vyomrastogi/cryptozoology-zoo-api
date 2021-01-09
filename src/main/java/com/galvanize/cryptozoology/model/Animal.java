@@ -1,9 +1,21 @@
 package com.galvanize.cryptozoology.model;
 
+import java.util.UUID;
+
 public class Animal {
 	private String id;
 	private String name;
 	private String type;
+
+	public Animal( String name, String type) {
+		this.id = UUID.randomUUID().toString();
+		this.name = name;
+		this.type = type;
+	}
+	
+	public Animal() {
+		
+	}
 
 	public String getName() {
 		return name;

@@ -8,15 +8,22 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.galvanize.cryptozoology.model.Animal;
+import com.galvanize.cryptozoology.service.AnimalService;
 
 @RestController
 @RequestMapping("api/zoo")
 public class AnimalController {
+	
+	AnimalService animalService;
+	
+	public AnimalController(AnimalService service) {
+		this.animalService = service;
+	}
+	
 
 	@PostMapping("/animals")
 	@ResponseStatus(code = HttpStatus.CREATED)
 	public Animal addAnimal(@RequestBody Animal animal) {
-		animal.setId("123");
-		return animal;
+		return animalService.addAnimal(animal);
 	}
 }
